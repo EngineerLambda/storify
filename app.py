@@ -8,7 +8,7 @@ import tempfile
 import gtts
 import os
 
-
+st.set_page_config(page_title="storify", page_icon="🗒️")
 st.header("Storify with LangChain - Generate Stories from Images")
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
 
@@ -119,7 +119,7 @@ else:
 
 # Preparing text and audio files from llm output
 st.sidebar.header("Download Options")
-st.sidebar.info("Kindly make sure that the story you want to download is the last message before the files (audio and text) are prepared before downloadinf them. Thanks.")
+st.sidebar.info("Kindly make sure that the story you want to download is the last message on the interface before the files (audio and text) are prepared before downloading them. Thanks.")
 
 # Ensure there's a final story to download
 if st.session_state.chat_history:

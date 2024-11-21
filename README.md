@@ -40,8 +40,8 @@ Before you can run this app locally, you will need the following:
 Start by cloning the repository to your local machine:
 
 ```bash
-git clone https://github.com/yourusername/story-generator-app.git
-cd story-generator-app
+git clone https://github.com/EngineerLambda/storify
+cd storify
 ```
 
 ### 2. **Install Dependencies**
@@ -94,7 +94,7 @@ This will open the app in your default web browser.
 
 ## Demo Video showing key features
 
-
+https://github.com/user-attachments/assets/c72e3405-e95b-4fe3-a02b-1d3ef18ebaad
 
 ---
 
