@@ -1,4 +1,4 @@
-# Storify with LangChain - Generate Stories from Images
+# Storify by Lambda - Generate Stories from Images
 
 Welcome to **Storify**! This app allows users to generate creative stories based on their inputs and download the results in multiple formats, including text and audio. The app leverages machine learning for story generation and text-to-speech for audio output, all integrated seamlessly into a user-friendly interface built with Streamlit.
 
