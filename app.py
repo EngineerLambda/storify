@@ -9,7 +9,7 @@ import gtts
 import os
 
 st.set_page_config(page_title="storify", page_icon="🗒️")
-st.header("Storify with LangChain - Generate Stories from Images")
+st.header("Storify by Lambda - Generate Stories from Images")
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
 
 # ai system prompt
