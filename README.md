@@ -108,8 +108,7 @@ To deploy on Streamlit Cloud:
 3. Configure the deployment settings (e.g., add environment variables for the API key).
 4. Click "Deploy".
 
-Once deployed, you'll have a live demo where users can interact with your app without running it locally.
-
+Once deployed, you'll have a live demo where users can interact with your app without running it locally. This is the link to the one I have deployed with streamlit cloud: https://storify-lambda.streamlit.app/
 ---
 
 
