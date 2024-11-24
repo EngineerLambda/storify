@@ -1,4 +1,4 @@
-# Storify by Lambda - Generate Stories from Images
+# [Storify](https://storify-lambda.streamlit.app/) by Lambda - Generate Stories from Images
 
 Welcome to **Storify**! This app allows users to generate creative stories based on their inputs and download the results in multiple formats, including text and audio. The app leverages machine learning for story generation and text-to-speech for audio output, all integrated seamlessly into a user-friendly interface built with Streamlit.
 
@@ -97,11 +97,14 @@ First demo video
 
 https://github.com/user-attachments/assets/c72e3405-e95b-4fe3-a02b-1d3ef18ebaad
 
-Improvement was made to improve the overall app latency and memory usage<br>
-I made sure the user can select the story they like best and click a checker, before file preparation starts. That way, the files are only created when needed, and the user can freely choose any story even if they have generated a new one they don't like.<br>
-I am also streaming the AI response now to make sure the user gets the messages as they come instead of waiting for the entire thing to be ready.
+Improvement was made to improve the overall app latency and memory usage
+1. I made sure the user can select the story they like best and click a checker, before file preparation starts. That way, the files are only created when needed, and the user can freely choose any story even if they have generated a new one they don't like.<br>
+2. I am also streaming the AI response now to make sure the user gets the stories as they come instead of waiting for the entire thing to be ready.
 
 New video demo
+
+https://github.com/user-attachments/assets/e802cebb-d27a-4249-977f-0ad7705cc6c3
+
 ---
 
 ## Deploy the App Live
