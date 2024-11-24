@@ -1,6 +1,6 @@
 # [Storify](https://storify-lambda.streamlit.app/) by Lambda - Generate Stories from Images
 
-Welcome to **Storify**! This app allows users to generate creative stories based on their inputs and download the results in multiple formats, including text and audio. The app leverages machine learning for story generation and text-to-speech for audio output, all integrated seamlessly into a user-friendly interface built with Streamlit.
+Welcome to **Storify**! This app allows users to generate creative stories based on their inputs and download the results in multiple formats, including text and audio. The app leverages artificial intelligence (AI) for story generation and text-to-speech for audio output, all integrated seamlessly into a user-friendly interface built with Streamlit. Useful for fiction story writers who need help finding the right description(s) for their next project and also for people who like to make sense out of images in a fun way.
 
 ## Project Workflow
 
@@ -64,8 +64,9 @@ You will need an API key for Google's generative AI model. To get this:
 - Go to the [Google Cloud Console](https://console.cloud.google.com/) or [Google For Developers](https://developers.google.com/)
 - Create a project and enable the API you need (Gemini).
 - Obtain your API key and add it to a `.env` file in the root directory.
+- If you are using a streamlit app, it is easier to do, by creating `/.streamlit/secrets.toml` file
 
-Example `.env` file:
+Example `.env` and `/.streamlit/secrets.toml` file:
 
 ```plaintext
 GOOGLE_API_KEY=your-google-api-key-here
@@ -98,23 +99,23 @@ First demo video
 https://github.com/user-attachments/assets/c72e3405-e95b-4fe3-a02b-1d3ef18ebaad
 
 Improvement was made to improve the overall app latency and memory usage
-1. I made sure the user can select the story they like best and click a checker, before file preparation starts. That way, the files are only created when needed, and the user can freely choose any story even if they have generated a new one they don't like.<br>
+1. I made sure the user can select the story they like best and click a checker, before file preparation starts. That way, the files are only created when needed, and the user can freely choose any story even if they have generated a new one they don't like.
 2. I am also streaming the AI response now to make sure the user gets the stories as they come instead of waiting for the entire thing to be ready.
 
 New video demo
 
-https://github.com/user-attachments/assets/e802cebb-d27a-4249-977f-0ad7705cc6c3
+https://github.com/user-attachments/assets/186a3bf9-7c02-4536-862e-4c608c01fd38
 
 ---
 
 ## Deploy the App Live
 
-If you’d like to take this app live, you can deploy it on platforms like [Streamlit Cloud](https://streamlit.io/cloud) or [Heroku](https://www.heroku.com/).
+If you'd like to take this app live, you can deploy it on platforms like [Streamlit Cloud](https://streamlit.io/cloud) or [Heroku](https://www.heroku.com/).
 
 To deploy on Streamlit Cloud:
 1. Push your repository to GitHub.
 2. Log in to Streamlit Cloud and link your GitHub repository.
-3. Configure the deployment settings (e.g., add environment variables for the API key).
+3. Configure the deployment settings (e.g., add environment variables for the API key, same as your `/.streamlit/secrets.toml` file content).
 4. Click "Deploy".
 
 Once deployed, you'll have a live demo where users can interact with your app without running it locally. This is the link to the one I have deployed with streamlit cloud: https://storify-lambda.streamlit.app/
@@ -124,8 +125,8 @@ Once deployed, you'll have a live demo where users can interact with your app wi
 ## Important Notes
 
 - Make sure the `.env` file is configured correctly with your **Google API key** before running the app.
-- If you encounter issues with generating the story or audio, check your API key and ensure you have internet access, as the AI and TTS functionalities require cloud access.
+- If you encounter issues with generating the story or audio, check your API key and ensure you have internet access, as the AI and TTS functionalities require internet access.
 
 ---
 
-Thank you for exploring **Storify**! We hope it sparks your creativity and provides endless storytelling fun!
+Thank you for exploring **Storify**! I hope it sparks your creativity and provides endless storytelling fun!

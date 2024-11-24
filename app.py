@@ -113,7 +113,7 @@ if user_prompt and uploaded_image:
         st.error(f"Error generating story: {e}")
 else:
     if not uploaded_image:
-        st.warning("Please upload an image.")
+        st.warning("Please upload an image. Also make sure you are seeing the side bar if you are on a smaller screen, desktop site is recommended")
         
 
 # Preparing text and audio files from llm output
