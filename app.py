@@ -4,6 +4,7 @@ import io
 import streamlit as st
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.schema import HumanMessage, SystemMessage, AIMessage
+from langchain_core.output_parsers import StrOutputParser
 import tempfile
 import gtts
 import os
@@ -64,7 +65,7 @@ def generate_or_tweak_story(system_message, image_data, user_input, history, twe
         elif kind == "assistant":
             messages.append(AIMessage(content=past_message))
 
-    # Add the new user input for tweaking or creating
+    # add the new user input for tweaking or creating
     if tweak:
         messages.append(
             HumanMessage(content=f"Tweak the previous story as follows: {user_input}")
@@ -82,94 +83,96 @@ def generate_or_tweak_story(system_message, image_data, user_input, history, twe
                 ]
             )
         )
-
-    response = llm.invoke(messages)
-    return response.content
+    chain= llm | StrOutputParser()
+   
+    return chain.stream(messages)
 
 
 # Handle Story Generation
 if user_prompt and uploaded_image:
     try:
         # Add user input to the chat history
+        with st.chat_message("user"):
+            st.markdown(user_prompt)
         st.session_state.chat_history.append((user_prompt, "user"))
 
         # Generate the story
-        with st.spinner("Generating story..."):
-            story = generate_or_tweak_story(
+        with st.chat_message("ai"):
+            story = st.write_stream(generate_or_tweak_story(
                 st.session_state.system_message,
                 image_data,
                 user_prompt,
                 st.session_state.chat_history,
-            )
+            ))
 
         # Add AI response to the chat history
         st.session_state.chat_history.append((story, "assistant"))
 
-        # Display AI response
-        st.chat_message("assistant").markdown(story)
 
     except Exception as e:
         st.error(f"Error generating story: {e}")
 else:
     if not uploaded_image:
         st.warning("Please upload an image.")
-    if not user_prompt:
-        st.info("Enter your story guidelines.")
         
 
 # Preparing text and audio files from llm output
 st.sidebar.header("Download Options")
-st.sidebar.info("Kindly make sure that the story you want to download is the last message on the interface before the files (audio and text) are prepared before downloading them. Thanks.")
+st.sidebar.info("Kindly make sure to select the story you prefer before clicking the check box")
 
 # Ensure there's a final story to download
-if st.session_state.chat_history:
-    final_story = st.session_state.chat_history[-1][0]  # obtains the last message
-
+if len(st.session_state.chat_history) > 1: #ensuring one story has been generated at least,
+    stories = [history[0] for history in st.session_state.chat_history if history[1] == "assistant"] # obtains the last message
+    stories_map = {f"Story {i}":story for i, story in enumerate(stories, start=1)}
+    selected_story = st.sidebar.selectbox("Select a story to download as text and audio", options=stories_map.keys())
+    selected = st.sidebar.checkbox("Have you selected a story of choice")
     # making sure users are aware of the file prep process
-    with st.sidebar.status("Preparing documents") as status:
-        
-        # prep text file
-        text_file = tempfile.NamedTemporaryFile(delete=False, suffix=".txt")
-        status.update(label="Preparing text document...")
-        with open(text_file.name, "w") as f:
-            f.write(final_story)
-        status.update(label="Text document ready!")
+    if selected:
+        final_story = stories_map.get(selected_story)
+        with st.sidebar.status("Preparing documents") as status:
+            
+            # prep text file
+            text_file = tempfile.NamedTemporaryFile(delete=False, suffix=".txt")
+            status.update(label="Preparing text document...")
+            with open(text_file.name, "w") as f:
+                f.write(final_story)
+            status.update(label="Text document ready!")
 
-        # txt download btn
-        st.sidebar.download_button(
-            label="Download as Text",
-            data=open(text_file.name, "rb"),
-            file_name="story.txt",
-            mime="text/plain",
-        )
-        os.unlink(text_file.name)  # remove file from storage
-
-        # prep audio file
-        if "audio_file_path" not in st.session_state:
-            st.session_state.audio_file_path = None
-
-        # generate audio if not already done
-        if st.session_state.audio_file_path is None:
-            try:
-                status.update(label="Preparing audio file...")
-                tts = gtts.gTTS(final_story, lang='en')
-
-                audio_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
-                tts.save(audio_file.name)
-
-                status.update(label="Audio file ready!")
-                st.session_state.audio_file_path = audio_file.name
-
-            except Exception as e:
-                status.update(label="Error occurred while preparing audio.")
-                st.sidebar.error(f"Error generating audio: {e}")
-        
-        # audio file btn
-        if st.session_state.audio_file_path:
+            # txt download btn
             st.sidebar.download_button(
-                label="Download as Audio",
-                data=open(st.session_state.audio_file_path, "rb"),
-                file_name="story.mp3",
-                mime="audio/mpeg",
+                label="Download as Text",
+                data=open(text_file.name, "rb"),
+                file_name="story.txt",
+                mime="text/plain",
             )
+            os.unlink(text_file.name)  # remove file from storage
+
+            # prep audio file
+            if "audio_file_path" not in st.session_state:
+                st.session_state.audio_file_path = None
+
+            # generate audio if not already done
+            if st.session_state.audio_file_path is None:
+                try:
+                    status.update(label="Preparing audio file...")
+                    tts = gtts.gTTS(final_story, lang='en')
+
+                    audio_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
+                    tts.save(audio_file.name)
+
+                    status.update(label="Audio file ready!")
+                    st.session_state.audio_file_path = audio_file.name
+
+                except Exception as e:
+                    status.update(label="Error occurred while preparing audio.")
+                    st.sidebar.error(f"Error generating audio: {e}")
+            
+            # audio file btn
+            if st.session_state.audio_file_path:
+                st.sidebar.download_button(
+                    label="Download as Audio",
+                    data=open(st.session_state.audio_file_path, "rb"),
+                    file_name="story.mp3",
+                    mime="audio/mpeg",
+                )
 

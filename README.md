@@ -93,9 +93,15 @@ This will open the app in your default web browser.
 ---
 
 ## Demo Video showing key features
+First demo video
 
 https://github.com/user-attachments/assets/c72e3405-e95b-4fe3-a02b-1d3ef18ebaad
 
+Improvement was made to improve the overall app latency and memory usage<br>
+I made sure the user can select the story they like best and click a checker, before file preparation starts. That way, the files are only created when needed, and the user can freely choose any story even if they have generated a new one they don't like.<br>
+I am also streaming the AI response now to make sure the user gets the messages as they come instead of waiting for the entire thing to be ready.
+
+New video demo
 ---
 
 ## Deploy the App Live
